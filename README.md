@@ -1,6 +1,6 @@
 # 🚀 Mini-Project: GameGear E-commerce (Microservice Architecture)
 
-![Go](https://img.shields.io/badge/Go-1.26.6-00ADD8?style=for-the-badge\&logo=go)
+![Go](https://img.shields.io/badge/Go-1.24.6-00ADD8?style=for-the-badge\&logo=go)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge\&logo=postgresql)
 ![Microservices](https://img.shields.io/badge/Architecture-Microservices-2ea44f?style=for-the-badge)
 
