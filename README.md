@@ -55,12 +55,13 @@
 
 ## 🤝 Development Team
 
-| Name                  | Responsibility            |
-| --------------------- | ------------------------- |
-| **วรรธนโรจน์ บุตรดี** | Project Manager & Backend |
-| **ณัฐพงษ์ ดีบุตร**    | Backend Developer         |
-| **ณิชพน มานิตย์**     | Backend Developer         |
-| **วายุ กอคูณ**        | Backend Developer         |
+| Profile | Name | Responsibility |
+|---------|------|----------------|
+| [<img src="https://github.com/Wattanaroj2567.png" width="60" height="60"/>](https://github.com/Wattanaroj2567) | **วรรธนโรจน์ บุตรดี** | Project Manager & Backend |
+| [<img src="https://avatars.githubusercontent.com/u/159878532?v=4" width="60" height="60"/>](https://github.com/Natthaphong66)  | **ณัฐพงษ์ ดีบุตร** | Backend Developer |
+| [<img src="https://avatars.githubusercontent.com/u/159880199?v=4" width="60" height="60"/>](https://github.com/nitchapon66)  | **ณิชพน มานิตย์** | Backend Developer |
+| [<img src="https://avatars.githubusercontent.com/u/160033040?v=4" width="60" height="60"/>](https://github.com/FUJIKOTH)  | **วายุ กอคูณ** | Backend Developer |
+
 
 ---
 
