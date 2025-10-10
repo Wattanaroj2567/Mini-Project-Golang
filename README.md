@@ -182,10 +182,10 @@ r.GET("/healthz", func(c *gin.Context) { c.JSON(200, gin.H{"status": "ok"}) })
 
 | Profile                                                                                   | Name                  | Responsibility            |
 | ----------------------------------------------------------------------------------------- | --------------------- | ------------------------- |
-| <img src="https://github.com/Wattanaroj2567.png" width="60" height="60"/>                 | **วรรธนโรจน์ บุตรดี** | Project Manager & Backend |
-| <img src="https://avatars.githubusercontent.com/u/159878532?v=4" width="60" height="60"/> | **ณัฐพงษ์ ดีบุตร**    | Backend Developer         |
-| <img src="https://avatars.githubusercontent.com/u/159880199?v=4" width="60" height="60"/> | **ณิชพน มานิตย์**     | Backend Developer         |
-| <img src="https://avatars.githubusercontent.com/u/160033040?v=4" width="60" height="60"/> | **วายุ กอคูณ**        | Backend Developer         |
+| [<img src="https://github.com/Wattanaroj2567.png" width="60" height="60"/>](https://github.com/Wattanaroj2567)               | **วรรธนโรจน์ บุตรดี** | Project Manager & Backend |
+| [<img src="https://avatars.githubusercontent.com/u/159878532?v=4" width="60" height="60"/>](https://github.com/Natthaphong66) | **ณัฐพงษ์ ดีบุตร**    | Backend Developer         |
+| [<img src="https://avatars.githubusercontent.com/u/159880199?v=4" width="60" height="60"/>](https://github.com/nitchapon66) | **ณิชพน มานิตย์**     | Backend Developer         |
+| [<img src="https://avatars.githubusercontent.com/u/160033040?v=4" width="60" height="60"/>](https://github.com/FUJIKOTH) | **วายุ กอคูณ**        | Backend Developer         |
 
 ---
 
