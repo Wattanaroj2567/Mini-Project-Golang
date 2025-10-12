@@ -18,7 +18,7 @@
 
 - [System Architecture Overview](#%EF%B8%8F-system-architecture-overview)
   - [องค์ประกอบหลัก](#-องค์ประกอบหลัก)
-  - [Request Flow Example](#-request-flow-example)
+  - [Request Flow Example](#request-flow-example)
   - [API Documentation (OpenAPI / Swagger)](#-api-documentation-openapi--swagger)
 - [Kong Gateway + Konga Setup (DB Mode)](#-kong-gateway--konga-setup-db-mode)
   - [ทำไมเลือก DB Mode + Konga](#-ทำไมเลือก-db-mode--konga)
