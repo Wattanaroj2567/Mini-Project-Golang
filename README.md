@@ -16,47 +16,57 @@
 
 ## 📋 Table of Contents
 
-- [System Architecture Overview](#system-architecture-overview)
-- [Request Flow](#request-flow)
-- [Kong API Gateway](#kong-api-gateway)
-  - [Why Kong Gateway?](#why-kong-gateway)
-  - [DB Mode vs DB-less Mode](#db-mode-vs-db-less-mode)
-- [Quick Start: ติดตั้งและรัน Kong + Konga](#quick-start-ติดตั้งและรัน-kong--konga)
-  - [Prerequisites](#prerequisites)
+- [System Architecture Overview](#-system-architecture-overview)
+  - [องค์ประกอบหลัก](#-องค์ประกอบหลัก)
+  - [Request Flow Example](#-request-flow-example)
+  - [API Documentation (OpenAPI / Swagger)](#-api-documentation-openapi--swagger)
+- [Kong Gateway + Konga Setup (DB Mode)](#-kong-gateway--konga-setup-db-mode)
+  - [ทำไมเลือก DB Mode + Konga](#-ทำไมเลือก-db-mode--konga)
+- [Quick Start: ติดตั้งและรัน Kong + Konga](#-quick-start-ติดตั้งและรัน-kong--konga)
+  - [Prerequisites](#-prerequisites)
   - [1️⃣ เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
   - [2️⃣ รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
   - [3️⃣ ตรวจสอบ Services](#3-ตรวจสอบ-services)
   - [4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
-  - [5️⃣ ตั้งค่า Services และ Routes ใน Konga](#5-ตั้งค่า-services-และ-routes-ใน-konga)
-- [การตั้งค่า Services และ Routes ใน Konga](#การตั้งค่า-services-และ-routes-ใน-konga)
-  - [ขั้นตอนการเพิ่ม Service ใหม่](#ขั้นตอนการเพิ่ม-service-ใหม่)
+- [การตั้งค่า Services และ Routes ใน Konga](#-การตั้งค่า-services-และ-routes-ใน-konga)
+  - [1. เพิ่ม Users Service](#1-เพิ่ม-users-service)
+  - [2. เพิ่ม Route สำหรับ Users Service](#2-เพิ่ม-route-สำหรับ-users-service)
+  - [3. ทำซ้ำสำหรับ Shop และ Admin Service](#3-ทำซ้ำสำหรับ-shop-และ-admin-service)
   - [ทดสอบการเชื่อมต่อ](#ทดสอบการเชื่อมต่อ)
-- [Adding Essential Plugins](#adding-essential-plugins)
-  - [CORS Plugin](#cors-plugin)
-  - [JWT Plugin](#jwt-plugin)
-  - [Rate Limiting Plugin](#rate-limiting-plugin)
-- [โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
-- [Ports Summary](#ports-summary)
-- [Healthcheck Endpoints](#healthcheck-endpoints)
-- [Troubleshooting](#troubleshooting)
-  - [❌ Problem: Kong Not Starting](#-problem-kong-not-starting)
-  - [❌ Problem: Konga Connection Failed](#-problem-konga-connection-failed)
-  - [❌ Problem: Database Migration Errors](#-problem-database-migration-errors)
-  - [❌ Problem: Port Already in Use](#-problem-port-already-in-use)
-  - [📋 Useful Commands](#-useful-commands)
-- [Additional Resources](#additional-resources)
-  - [Project Documentation (Google Docs)](#project-documentation-google-docs)
-- [Development Team](#development-team)
-- [Service Repositories](#service-repositories)
-- [Summary & Key Features](#summary--key-features)
-  - [Quick Commands Recap](#quick-commands-recap)
-  - [Documentation Structure](#documentation-structure)
-  - [Learning Resources Included](#learning-resources-included)
-- [Support & Contact](#support--contact)
+- [เพิ่ม Plugins ที่จำเป็น](#-เพิ่ม-plugins-ที่จำเป็น)
+  - [1. CORS Plugin สำหรับ Frontend](#1-cors-plugin-สำหรับ-frontend)
+  - [2. JWT Plugin สำหรับ Authentication](#2-jwt-plugin-สำหรับ-authentication)
+  - [3. Rate Limiting Plugin ป้องกัน DDoS](#3-rate-limiting-plugin-ป้องกัน-ddos)
+- [โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#-โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
+- [Ports Summary](#-ports-summary)
+- [Healthcheck Endpoints](#-healthcheck-endpoints)
+  - [ทดสอบผ่าน Kong Gateway](#ทดสอบผ่าน-kong-gateway)
+- [Troubleshooting](#-troubleshooting)
+  - [Problem: Kong ไม่สามารถเชื่อมต่อกับ Services](#-problem-kong-ไม่สามารถเชื่อมต่อกับ-services)
+  - [Problem: Konga ไม่สามารถเชื่อมต่อกับ Kong](#-problem-konga-ไม่สามารถเชื่อมต่อกับ-kong)
+  - [Problem: JWT Authentication ไม่ทำงาน](#-problem-jwt-authentication-ไม่ทำงาน)
+  - [Problem: Database Migration Errors](#-problem-database-migration-errors)
+  - [Problem: Port Already in Use](#-problem-port-already-in-use)
+  - [Useful Commands](#-useful-commands)
+- [Additional Resources](#-additional-resources)
+  - [Project Documentation (Google Docs)](#-project-documentation-google-docs)
+  - [Kong Documentation](#-kong-documentation)
+  - [Konga Documentation](#-konga-documentation)
+  - [Go + Gin Framework](#-go--gin-framework)
+- [Service Repositories](#-service-repositories)
+- [Development Team](#-development-team)
+- [Summary & Key Features](#-summary--key-features)
+  - [What You Get](#-what-you-get)
+  - [Quick Commands Recap](#-quick-commands-recap)
+  - [Documentation Structure](#-documentation-structure)
+  - [Learning Resources Included](#-learning-resources-included)
+- [Support & Contact](#-support--contact)
 
 ---
 
 ## 🏛️ System Architecture Overview
+
+### องค์ประกอบหลัก
 
 ```mermaid
 graph TB
@@ -123,7 +133,7 @@ graph TB
 | **🛡️ Admin Service** | ระบบหลังบ้าน (Admin Panel) - ประสานงานกับ Users/Shop ผ่าน Kong           | 8082                              | Go + Gin           |
 | **🗄️ PostgreSQL**    | ฐานข้อมูลสำหรับแต่ละ Service + Kong + Konga                              | 5432 (varies)                     | PostgreSQL 15/17   |
 
-### 📊 Request Flow Example
+### Request Flow Example
 
 ```mermaid
 sequenceDiagram
@@ -166,7 +176,7 @@ sequenceDiagram
 
 โปรเจกต์นี้ใช้ **Kong Gateway (DB Mode)** พร้อม **Konga Admin UI** เพื่อให้สามารถจัดการ Services, Routes, และ Plugins ผ่าน Web Interface ได้แบบ Real-time
 
-### 🎯 ทำไมเลือก DB Mode + Konga?
+### ทำไมเลือก DB Mode + Konga?
 
 | Feature                  | DB Mode + Konga ✅          | DB-less Mode ❌              |
 | ------------------------ | --------------------------- | ---------------------------- |
@@ -183,7 +193,7 @@ sequenceDiagram
 > 👤 **ผู้รับผิดชอบ Kong Gateway Setup**: **วรรธนโรจน์ บุตรดี** (Project Manager)  
 > 📝 หากมีปัญหาเกี่ยวกับ Kong Gateway, Konga UI หรือการตั้งค่า Routes/Plugins กรุณาติดต่อ
 
-### 📋 Prerequisites
+### Prerequisites
 
 - Docker และ Docker Compose ติดตั้งแล้ว
 - Port ว่าง: `8000`, `8001`, `1337`, `8080`, `8081`, `8082`
@@ -268,7 +278,7 @@ curl -i http://localhost:1337/
 
 ### ขั้นตอนการเพิ่ม Service ใหม่
 
-#### 1. เพิ่ม Users Service
+### 1. เพิ่ม Users Service
 
 1. ใน Konga UI ไปที่ **Services** → **Add New Service**
 2. กรอกข้อมูล:
@@ -281,7 +291,7 @@ curl -i http://localhost:1337/
    ```
 3. คลิก **Submit**
 
-#### 2. เพิ่ม Route สำหรับ Users Service
+### 2. เพิ่ม Route สำหรับ Users Service
 
 1. ไปที่ **Routes** ของ `users-service` → **Add Route**
 2. กรอกข้อมูล:
@@ -292,7 +302,7 @@ curl -i http://localhost:1337/
    ```
 3. คลิก **Submit**
 
-#### 3. ทำซ้ำสำหรับ Shop และ Admin Service
+### 3. ทำซ้ำสำหรับ Shop และ Admin Service
 
 **Shop Service:**
 
@@ -327,7 +337,7 @@ curl http://localhost:8000/admin/healthz
 
 ## 🔌 เพิ่ม Plugins ที่จำเป็น
 
-### 1. CORS Plugin (สำหรับ Frontend)
+### 1. CORS Plugin สำหรับ Frontend
 
 ใน Konga UI:
 
@@ -342,7 +352,7 @@ curl http://localhost:8000/admin/healthz
    max_age: 3600
    ```
 
-### 2. JWT Plugin (สำหรับ Authentication)
+### 2. JWT Plugin สำหรับ Authentication
 
 สำหรับ Routes ที่ต้องการ Authentication:
 
@@ -354,7 +364,7 @@ curl http://localhost:8000/admin/healthz
    secret_is_base64: false
    ```
 
-### 3. Rate Limiting Plugin (ป้องกัน DDoS)
+### 3. Rate Limiting Plugin ป้องกัน DDoS
 
 1. เพิ่ม **Rate Limiting Plugin** แบบ Global หรือต่อ Service
 2. ตั้งค่า:
@@ -579,7 +589,7 @@ curl http://localhost:8000/admin/healthz
 
 ## 🔍 Troubleshooting
 
-### ❌ Problem: Kong ไม่สามารถเชื่อมต่อกับ Services
+### Problem: Kong ไม่สามารถเชื่อมต่อกับ Services
 
 **Symptoms:**
 
@@ -607,7 +617,7 @@ curl http://localhost:8000/admin/healthz
    - ถ้ารัน Services นอก Docker: ใช้ `host.docker.internal`
    - ถ้ารัน Services ใน Docker network เดียวกัน: ใช้ `users-service`, `shop-service`, etc.
 
-### ❌ Problem: Konga ไม่สามารถเชื่อมต่อกับ Kong
+### Problem: Konga ไม่สามารถเชื่อมต่อกับ Kong
 
 **Solutions:**
 
@@ -638,7 +648,7 @@ curl http://localhost:8000/admin/healthz
      -v
    ```
 
-### ❌ Problem: JWT Authentication ไม่ทำงาน
+### Problem: JWT Authentication ไม่ทำงาน
 
 **Solutions:**
 
@@ -656,7 +666,7 @@ curl http://localhost:8000/admin/healthz
 
 3. **ตรวจสอบ Secret Key ตรงกันระหว่าง Service และ Kong**
 
-### ❌ Problem: Database Migration Errors
+### Problem: Database Migration Errors
 
 **Solutions:**
 
@@ -670,7 +680,7 @@ docker logs kong-migrations
 docker logs kong-gateway
 ```
 
-### ❌ Problem: Port Already in Use
+### Problem: Port Already in Use
 
 **Solutions:**
 
@@ -682,7 +692,7 @@ lsof -i :8000                  # Mac/Linux
 # หยุด process ที่ใช้ port หรือเปลี่ยน port ใน docker-compose
 ```
 
-### 📋 Useful Commands
+### Useful Commands
 
 ```bash
 # ดู logs ทั้งหมด
@@ -712,7 +722,7 @@ curl http://localhost:8001/plugins
 
 ## 📚 Additional Resources
 
-### 📖 Project Documentation (Google Docs)
+### Project Documentation (Google Docs)
 
 เอกสารสำหรับการพัฒนาและส่งงาน:
 
@@ -768,7 +778,7 @@ curl http://localhost:8001/plugins
 
 ## ✅ Summary & Key Features
 
-### 🎯 What You Get
+### What You Get
 
 - ✅ **Kong Gateway (DB Mode)** - API Gateway หลักพร้อม PostgreSQL backing
 - ✅ **Konga Admin UI** - จัดการ Kong แบบ GUI สะดวก ไม่ต้องใช้ Command Line
@@ -780,7 +790,7 @@ curl http://localhost:8001/plugins
 - ✅ **Plugin Support** - CORS, JWT, Rate Limiting พร้อมใช้งาน
 - ✅ **Troubleshooting Guide** - มีคำแนะนำแก้ปัญหาที่พบบ่อย
 
-### 🚀 Quick Commands Recap
+### Quick Commands Recap
 
 ```bash
 # 1. เริ่ม Kong Gateway + Konga
@@ -803,7 +813,7 @@ open http://localhost:8081/swagger/index.html  # Shop
 open http://localhost:8082/swagger/index.html  # Admin
 ```
 
-### 📖 Documentation Structure
+### Documentation Structure
 
 ```
 GameGear-Ecommerce/
@@ -829,7 +839,7 @@ GameGear-Ecommerce/
 
 > 💡 **หมายเหตุ**: แต่ละ service เป็น repository แยกกันบน GitHub
 
-### 🎓 Learning Resources Included
+### Learning Resources Included
 
 - **Architecture Diagrams**: Mermaid diagrams แสดงโครงสร้างระบบและ Request Flow
 - **Setup Guides**: คำแนะนำทีละขั้นตอนสำหรับ Kong และ Konga
