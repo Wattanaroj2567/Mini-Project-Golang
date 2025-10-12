@@ -838,33 +838,6 @@ GameGear-Ecommerce/
 - **Best Practices**: แนวทางที่ดีสำหรับ Development และ Production
 
 ---
-### Repository Structure
-
-```
-GameGear-Ecommerce/
-├── Mini-Project-Golang/ (Main Repository)
-│   └── README.md (Main documentation)
-├── users-service/ (Users Service Repository)
-│   ├── README.md (Service documentation)
-│   ├── go.mod
-│   ├── go.sum
-│   └── internal/ (handlers, models, repositories, services)
-├── shop-service/ (Shop Service Repository)
-│   ├── README.md (Service documentation)
-│   ├── go.mod
-│   ├── go.sum
-│   └── internal/ (handlers, models, repositories, services)
-└── admin-service/ (Admin Service Repository)
-    ├── README.md (Service documentation)
-    ├── docker-compose.kong.yml (Kong Gateway + Konga UI)
-    ├── go.mod
-    ├── go.sum
-    └── internal/ (handlers, models, repositories, services)
-```
-
-> 💡 **หมายเหตุ**: แต่ละ service เป็น repository แยกกันบน GitHub
-
----
 
 ## 📞 Support & Contact
 
