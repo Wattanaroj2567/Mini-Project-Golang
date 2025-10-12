@@ -14,6 +14,46 @@
 
 ---
 
+## 📋 Table of Contents
+
+- [🏛️ System Architecture Overview](#️-system-architecture-overview)
+- [🔄 Request Flow](#-request-flow)
+- [🦍 Kong API Gateway](#-kong-api-gateway)
+  - [Why Kong Gateway?](#why-kong-gateway)
+  - [DB Mode vs DB-less Mode](#db-mode-vs-db-less-mode)
+- [🚀 Quick Start: ติดตั้งและรัน Kong + Konga](#-quick-start-ติดตั้งและรัน-kong--konga)
+  - [📋 Prerequisites](#-prerequisites)
+  - [1️⃣ เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
+  - [2️⃣ รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
+  - [3️⃣ ตรวจสอบ Services](#3-ตรวจสอบ-services)
+  - [4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
+  - [5️⃣ ตั้งค่า Services และ Routes ใน Konga](#5-ตั้งค่า-services-และ-routes-ใน-konga)
+- [🔧 การตั้งค่า Services และ Routes ใน Konga](#-การตั้งค่า-services-และ-routes-ใน-konga)
+  - [ขั้นตอนการเพิ่ม Service ใหม่](#ขั้นตอนการเพิ่ม-service-ใหม่)
+  - [ทดสอบการเชื่อมต่อ](#ทดสอบการเชื่อมต่อ)
+- [🔌 Adding Essential Plugins](#-adding-essential-plugins)
+  - [CORS Plugin](#cors-plugin)
+  - [JWT Plugin](#jwt-plugin)
+  - [Rate Limiting Plugin](#rate-limiting-plugin)
+- [📁 โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#-โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
+- [📍 Ports Summary](#-ports-summary)
+- [🏥 Healthcheck Endpoints](#-healthcheck-endpoints)
+- [🔧 Troubleshooting](#-troubleshooting)
+  - [❌ Problem: Kong Not Starting](#-problem-kong-not-starting)
+  - [❌ Problem: Konga Connection Failed](#-problem-konga-connection-failed)
+  - [❌ Problem: Database Migration Errors](#-problem-database-migration-errors)
+  - [❌ Problem: Port Already in Use](#-problem-port-already-in-use)
+  - [📋 Useful Commands](#-useful-commands)
+- [📚 Additional Resources](#-additional-resources)
+  - [📖 Project Documentation (Google Docs)](#-project-documentation-google-docs)
+- [🎯 Summary & Key Features](#-summary--key-features)
+  - [🚀 Quick Commands Recap](#-quick-commands-recap)
+  - [📖 Documentation Structure](#-documentation-structure)
+  - [🎓 Learning Resources Included](#-learning-resources-included)
+- [📞 Support & Contact](#-support--contact)
+
+---
+
 ## 🏛️ System Architecture Overview
 
 ```mermaid
