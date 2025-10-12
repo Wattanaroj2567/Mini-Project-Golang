@@ -16,7 +16,7 @@
 
 ## 📋 Table of Contents
 
-- [System Architecture Overview](#-system-architecture-overview)
+- [System Architecture Overview](#%EF%B8%8F-system-architecture-overview)
   - [องค์ประกอบหลัก](#-องค์ประกอบหลัก)
   - [Request Flow Example](#-request-flow-example)
   - [API Documentation (OpenAPI / Swagger)](#-api-documentation-openapi--swagger)
@@ -631,7 +631,7 @@ curl http://localhost:8000/admin/healthz
    - ถ้ารันใน Docker network: `http://kong:8001`
    - ถ้ารันจากเครื่องโฮสต์: `http://localhost:8001`
 
-### ❌ Problem: CORS Errors ใน Browser
+### Problem: CORS Errors ใน Browser
 
 **Solutions:**
 
