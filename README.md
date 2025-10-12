@@ -16,41 +16,41 @@
 
 ## 📋 Table of Contents
 
-- [🏛️ System Architecture Overview](#️-system-architecture-overview)
-- [🔄 Request Flow](#-request-flow)
-- [🦍 Kong API Gateway](#-kong-api-gateway)
+- [System Architecture Overview](#system-architecture-overview)
+- [Request Flow](#request-flow)
+- [Kong API Gateway](#kong-api-gateway)
   - [Why Kong Gateway?](#why-kong-gateway)
   - [DB Mode vs DB-less Mode](#db-mode-vs-db-less-mode)
-- [🚀 Quick Start: ติดตั้งและรัน Kong + Konga](#-quick-start-ติดตั้งและรัน-kong--konga)
-  - [📋 Prerequisites](#-prerequisites)
+- [Quick Start: ติดตั้งและรัน Kong + Konga](#quick-start-ติดตั้งและรัน-kong--konga)
+  - [Prerequisites](#prerequisites)
   - [1️⃣ เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
   - [2️⃣ รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
   - [3️⃣ ตรวจสอบ Services](#3-ตรวจสอบ-services)
   - [4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
   - [5️⃣ ตั้งค่า Services และ Routes ใน Konga](#5-ตั้งค่า-services-และ-routes-ใน-konga)
-- [🔧 การตั้งค่า Services และ Routes ใน Konga](#-การตั้งค่า-services-และ-routes-ใน-konga)
+- [การตั้งค่า Services และ Routes ใน Konga](#การตั้งค่า-services-และ-routes-ใน-konga)
   - [ขั้นตอนการเพิ่ม Service ใหม่](#ขั้นตอนการเพิ่ม-service-ใหม่)
   - [ทดสอบการเชื่อมต่อ](#ทดสอบการเชื่อมต่อ)
-- [🔌 Adding Essential Plugins](#-adding-essential-plugins)
+- [Adding Essential Plugins](#adding-essential-plugins)
   - [CORS Plugin](#cors-plugin)
   - [JWT Plugin](#jwt-plugin)
   - [Rate Limiting Plugin](#rate-limiting-plugin)
-- [📁 โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#-โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
-- [📍 Ports Summary](#-ports-summary)
-- [🏥 Healthcheck Endpoints](#-healthcheck-endpoints)
-- [🔧 Troubleshooting](#-troubleshooting)
+- [โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
+- [Ports Summary](#ports-summary)
+- [Healthcheck Endpoints](#healthcheck-endpoints)
+- [Troubleshooting](#troubleshooting)
   - [❌ Problem: Kong Not Starting](#-problem-kong-not-starting)
   - [❌ Problem: Konga Connection Failed](#-problem-konga-connection-failed)
   - [❌ Problem: Database Migration Errors](#-problem-database-migration-errors)
   - [❌ Problem: Port Already in Use](#-problem-port-already-in-use)
   - [📋 Useful Commands](#-useful-commands)
-- [📚 Additional Resources](#-additional-resources)
-  - [📖 Project Documentation (Google Docs)](#-project-documentation-google-docs)
-- [🎯 Summary & Key Features](#-summary--key-features)
-  - [🚀 Quick Commands Recap](#-quick-commands-recap)
-  - [📖 Documentation Structure](#-documentation-structure)
-  - [🎓 Learning Resources Included](#-learning-resources-included)
-- [📞 Support & Contact](#-support--contact)
+- [Additional Resources](#additional-resources)
+  - [Project Documentation (Google Docs)](#project-documentation-google-docs)
+- [Summary & Key Features](#summary--key-features)
+  - [Quick Commands Recap](#quick-commands-recap)
+  - [Documentation Structure](#documentation-structure)
+  - [Learning Resources Included](#learning-resources-included)
+- [Support & Contact](#support--contact)
 
 ---
 
@@ -837,14 +837,30 @@ GameGear-Ecommerce/
 
 ---
 
-## 📞 Support & Contact
+## Support & Contact
 
 หากมีปัญหาหรือคำถาม:
 
 1. ตรวจสอบ **Troubleshooting Section** ด้านบน
 2. ดู **README.md** ของแต่ละ Service สำหรับรายละเอียดเพิ่มเติม
 3. ตรวจสอบ logs: `docker logs kong-gateway -f`
-4. ติดต่อทีมพัฒนา (ดูรายชื่อด้านบน)
+4. ติดต่อทีมพัฒนา:
+
+### Team Members
+
+| Role | Name | Service | GitHub |
+|------|------|---------|--------|
+| **Project Manager** | วรรธนโรจน์ บุตรดี | admin-service | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | ณิชพน มานิตย์ | users-service | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | ณัฐพงษ์ ดีบุตร | shop-service (Products) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | วายุ กอคูณ | shop-service (Cart & Orders) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+
+### Responsibilities
+
+- **วรรธนโรจน์ บุตรดี**: Kong Gateway management, Admin service, Project coordination
+- **ณิชพน มานิตย์**: Users service, Authentication & Authorization
+- **ณัฐพงษ์ ดีบุตร**: Product catalog, Category management
+- **วายุ กอคูณ**: Cart management, Order processing
 
 ---
 
