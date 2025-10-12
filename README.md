@@ -16,29 +16,29 @@
 
 ## 📋 Table of Contents
 
-- [🏛️ System Architecture Overview](#️-system-architecture-overview)
-- [🔄 Request Flow](#-request-flow)
-- [🦍 Kong API Gateway](#-kong-api-gateway)
+- [System Architecture Overview](#system-architecture-overview)
+- [Request Flow](#request-flow)
+- [Kong API Gateway](#kong-api-gateway)
   - [Why Kong Gateway?](#why-kong-gateway)
   - [DB Mode vs DB-less Mode](#db-mode-vs-db-less-mode)
-- [🚀 Quick Start: ติดตั้งและรัน Kong + Konga](#-quick-start-ติดตั้งและรัน-kong--konga)
-  - [📋 Prerequisites](#-prerequisites)
+- [Quick Start: ติดตั้งและรัน Kong + Konga](#quick-start-ติดตั้งและรัน-kong--konga)
+  - [Prerequisites](#prerequisites)
   - [1️⃣ เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
   - [2️⃣ รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
   - [3️⃣ ตรวจสอบ Services](#3-ตรวจสอบ-services)
   - [4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
   - [5️⃣ ตั้งค่า Services และ Routes ใน Konga](#5-ตั้งค่า-services-และ-routes-ใน-konga)
-- [🔧 การตั้งค่า Services และ Routes ใน Konga](#-การตั้งค่า-services-และ-routes-ใน-konga)
+- [การตั้งค่า Services และ Routes ใน Konga](#การตั้งค่า-services-และ-routes-ใน-konga)
   - [ขั้นตอนการเพิ่ม Service ใหม่](#ขั้นตอนการเพิ่ม-service-ใหม่)
   - [ทดสอบการเชื่อมต่อ](#ทดสอบการเชื่อมต่อ)
-- [🔌 Adding Essential Plugins](#-adding-essential-plugins)
+- [Adding Essential Plugins](#adding-essential-plugins)
   - [CORS Plugin](#cors-plugin)
   - [JWT Plugin](#jwt-plugin)
   - [Rate Limiting Plugin](#rate-limiting-plugin)
-- [📁 โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#-โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
-- [📍 Ports Summary](#-ports-summary)
-- [🏥 Healthcheck Endpoints](#-healthcheck-endpoints)
-- [🔧 Troubleshooting](#-troubleshooting)
+- [โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
+- [Ports Summary](#ports-summary)
+- [Healthcheck Endpoints](#healthcheck-endpoints)
+- [Troubleshooting](#troubleshooting)
   - [❌ Problem: Kong Not Starting](#-problem-kong-not-starting)
   - [❌ Problem: Konga Connection Failed](#-problem-konga-connection-failed)
   - [❌ Problem: Database Migration Errors](#-problem-database-migration-errors)
@@ -843,12 +843,12 @@ GameGear-Ecommerce/
 
 ### Team Members
 
-| Role | Name | Service | GitHub |
-|------|------|---------|--------|
-| **Project Manager** | วรรธนโรจน์ บุตรดี | admin-service | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | ณิชพน มานิตย์ | users-service | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | ณัฐพงษ์ ดีบุตร | shop-service (Products) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | วายุ กอคูณ | shop-service (Cart & Orders) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| Role                  | Name              | Service                      | GitHub                                               |
+| --------------------- | ----------------- | ---------------------------- | ---------------------------------------------------- |
+| **Project Manager**   | วรรธนโรจน์ บุตรดี | admin-service                | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | ณิชพน มานิตย์     | users-service                | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | ณัฐพงษ์ ดีบุตร    | shop-service (Products)      | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
+| **Backend Developer** | วายุ กอคูณ        | shop-service (Cart & Orders) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
 
 ### Responsibilities
 
@@ -863,12 +863,12 @@ GameGear-Ecommerce/
 
 ### Individual Service Repositories
 
-| Service | Repository | Description | Developer |
-|---------|------------|-------------|-----------|
-| **Main Documentation** | [Mini-Project-Golang](https://github.com/Wattanaroj2567/Mini-Project-Golang) | Main project documentation and Kong Gateway setup | วรรธนโรจน์ บุตรดี |
-| **Users Service** | [users-service](https://github.com/Wattanaroj2567/users-service) | Authentication, user management, JWT tokens | ณิชพน มานิตย์ |
-| **Shop Service** | [shop-service](https://github.com/Wattanaroj2567/shop-service) | Product catalog, cart, orders | ณัฐพงษ์ ดีบุตร, วายุ กอคูณ |
-| **Admin Service** | [admin-service](https://github.com/Wattanaroj2567/admin-service) | Admin dashboard, Kong Gateway management | วรรธนโรจน์ บุตรดี |
+| Service                | Repository                                                                   | Description                                       | Developer                  |
+| ---------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------- | -------------------------- |
+| **Main Documentation** | [Mini-Project-Golang](https://github.com/Wattanaroj2567/Mini-Project-Golang) | Main project documentation and Kong Gateway setup | วรรธนโรจน์ บุตรดี          |
+| **Users Service**      | [users-service](https://github.com/Wattanaroj2567/users-service)             | Authentication, user management, JWT tokens       | ณิชพน มานิตย์              |
+| **Shop Service**       | [shop-service](https://github.com/Wattanaroj2567/shop-service)               | Product catalog, cart, orders                     | ณัฐพงษ์ ดีบุตร, วายุ กอคูณ |
+| **Admin Service**      | [admin-service](https://github.com/Wattanaroj2567/admin-service)             | Admin dashboard, Kong Gateway management          | วรรธนโรจน์ บุตรดี          |
 
 ### Repository Structure
 
