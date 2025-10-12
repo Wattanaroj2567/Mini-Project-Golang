@@ -838,38 +838,6 @@ GameGear-Ecommerce/
 - **Best Practices**: แนวทางที่ดีสำหรับ Development และ Production
 
 ---
-
-## 👥 Development Team
-
-### Team Members
-
-| Role                  | Name              | Service                      | GitHub                                               |
-| --------------------- | ----------------- | ---------------------------- | ---------------------------------------------------- |
-| **Project Manager**   | วรรธนโรจน์ บุตรดี | admin-service                | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | ณิชพน มานิตย์     | users-service                | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | ณัฐพงษ์ ดีบุตร    | shop-service (Products)      | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-| **Backend Developer** | วายุ กอคูณ        | shop-service (Cart & Orders) | [@Wattanaroj2567](https://github.com/Wattanaroj2567) |
-
-### Responsibilities
-
-- **วรรธนโรจน์ บุตรดี**: Kong Gateway management, Admin service, Project coordination
-- **ณิชพน มานิตย์**: Users service, Authentication & Authorization
-- **ณัฐพงษ์ ดีบุตร**: Product catalog, Category management
-- **วายุ กอคูณ**: Cart management, Order processing
-
----
-
-## 📚 Service Repositories
-
-### Individual Service Repositories
-
-| Service                | Repository                                                                   | Description                                       | Developer                  |
-| ---------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------- | -------------------------- |
-| **Main Documentation** | [Mini-Project-Golang](https://github.com/Wattanaroj2567/Mini-Project-Golang) | Main project documentation and Kong Gateway setup | วรรธนโรจน์ บุตรดี          |
-| **Users Service**      | [users-service](https://github.com/Wattanaroj2567/users-service)             | Authentication, user management, JWT tokens       | ณิชพน มานิตย์              |
-| **Shop Service**       | [shop-service](https://github.com/Wattanaroj2567/shop-service)               | Product catalog, cart, orders                     | ณัฐพงษ์ ดีบุตร, วายุ กอคูณ |
-| **Admin Service**      | [admin-service](https://github.com/Wattanaroj2567/admin-service)             | Admin dashboard, Kong Gateway management          | วรรธนโรจน์ บุตรดี          |
-
 ### Repository Structure
 
 ```
