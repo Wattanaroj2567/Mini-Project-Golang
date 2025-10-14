@@ -5,7 +5,6 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql)
 ![GORM](https://img.shields.io/badge/GORM-B93527?style=for-the-badge)
 ![JWT](https://img.shields.io/badge/Auth-JWT-FF6F00?style=for-the-badge)
-![Swagger](https://img.shields.io/badge/API-Swagger-85EA2D?style=for-the-badge&logo=swagger)
 ![Kong](https://img.shields.io/badge/API%20Gateway-Kong-003459?style=for-the-badge&logo=kong)
 ![Konga](https://img.shields.io/badge/Admin%20UI-Konga-00C7B7?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
@@ -16,57 +15,102 @@
 
 ## 📋 Table of Contents
 
-- [System Architecture Overview](#%EF%B8%8F-system-architecture-overview)
+- [🏛️ ภาพรวมระบบ (System Overview)](#%EF%B8%8F-ภาพรวมระบบ-system-overview)
   - [องค์ประกอบหลัก](#-องค์ประกอบหลัก)
   - [Request Flow Example](#request-flow-example)
-  - [API Documentation (OpenAPI / Swagger)](#-api-documentation-openapi--swagger)
-- [Kong Gateway + Konga Setup (DB Mode)](#-kong-gateway--konga-setup-db-mode)
-  - [ทำไมเลือก DB Mode + Konga](#-ทำไมเลือก-db-mode--konga)
-- [Quick Start: ติดตั้งและรัน Kong + Konga](#-quick-start-ติดตั้งและรัน-kong--konga)
+- [🚀 เริ่มต้นใช้งาน (Getting Started)](#-เริ่มต้นใช้งาน-getting-started)
+  - [ทำไมเลือก DB Mode + Konga](#ทำไมเลือก-db-mode--konga)
+- [⚡ ติดตั้งและรันระบบ (Installation & Setup)](#-ติดตั้งและรันระบบ-installation--setup)
   - [Prerequisites](#-prerequisites)
-  - [1️⃣ เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
-  - [2️⃣ รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
-  - [3️⃣ ตรวจสอบ Services](#3-ตรวจสอบ-services)
-  - [4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
-- [การตั้งค่า Services และ Routes ใน Konga](#-การตั้งค่า-services-และ-routes-ใน-konga)
+  - [Remote Development (ngrok หรือ Tunnel)](#-remote-development-ngrok-หรือ-tunnel)
+  - [1. เริ่ม Kong Gateway + Konga](#1-เริ่ม-kong-gateway--konga)
+  - [2️. รัน Services (สำหรับ Developers)](#2-รัน-services-สำหรับ-developers)
+  - [3️. ตรวจสอบ Services](#3-ตรวจสอบ-services)
+  - [4️. เปิด Konga UI และตั้งค่าครั้งแรก](#4-เปิด-konga-ui-และตั้งค่าครั้งแรก)
+- [🔧 ตั้งค่า Services และ Routes](#-ตั้งค่า-services-และ-routes)
   - [1. เพิ่ม Users Service](#1-เพิ่ม-users-service)
   - [2. เพิ่ม Route สำหรับ Users Service](#2-เพิ่ม-route-สำหรับ-users-service)
   - [3. ทำซ้ำสำหรับ Shop และ Admin Service](#3-ทำซ้ำสำหรับ-shop-และ-admin-service)
   - [ทดสอบการเชื่อมต่อ](#ทดสอบการเชื่อมต่อ)
-- [เพิ่ม Plugins ที่จำเป็น](#-เพิ่ม-plugins-ที่จำเป็น)
+- [🔌 ตั้งค่า Plugins](#-ตั้งค่า-plugins)
   - [1. CORS Plugin สำหรับ Frontend](#1-cors-plugin-สำหรับ-frontend)
   - [2. JWT Plugin สำหรับ Authentication](#2-jwt-plugin-สำหรับ-authentication)
   - [3. Rate Limiting Plugin ป้องกัน DDoS](#3-rate-limiting-plugin-ป้องกัน-ddos)
-- [โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)](#-โครงสร้าง-docker-compose-admin-servicedocker-composekongyml)
-- [Ports Summary](#-ports-summary)
-- [Healthcheck Endpoints](#-healthcheck-endpoints)
+- [📁 ไฟล์ Docker Compose](#-ไฟล์-docker-compose)
+- [🌐 รายการ Ports](#-รายการ-ports)
+- [🐋 Health Check Endpoints](#-health-check-endpoints)
   - [ทดสอบผ่าน Kong Gateway](#ทดสอบผ่าน-kong-gateway)
-- [Troubleshooting](#-troubleshooting)
-  - [Problem: Kong ไม่สามารถเชื่อมต่อกับ Services](#-problem-kong-ไม่สามารถเชื่อมต่อกับ-services)
-  - [Problem: Konga ไม่สามารถเชื่อมต่อกับ Kong](#-problem-konga-ไม่สามารถเชื่อมต่อกับ-kong)
-  - [Problem: JWT Authentication ไม่ทำงาน](#-problem-jwt-authentication-ไม่ทำงาน)
-  - [Problem: Database Migration Errors](#-problem-database-migration-errors)
-  - [Problem: Port Already in Use](#-problem-port-already-in-use)
-  - [Useful Commands](#-useful-commands)
-- [Additional Resources](#-additional-resources)
-  - [Project Documentation (Google Docs)](#-project-documentation-google-docs)
-  - [Kong Documentation](#-kong-documentation)
-  - [Konga Documentation](#-konga-documentation)
-  - [Go + Gin Framework](#-go--gin-framework)
-- [Service Repositories](#-service-repositories)
-- [Development Team](#-development-team)
-- [Summary & Key Features](#-summary--key-features)
-  - [What You Get](#-what-you-get)
-  - [Quick Commands Recap](#-quick-commands-recap)
-  - [Documentation Structure](#-documentation-structure)
-  - [Learning Resources Included](#-learning-resources-included)
-- [Support & Contact](#-support--contact)
+- [🔍 แก้ไขปัญหา (Troubleshooting)](#-แก้ไขปัญหา-troubleshooting)
+  - [Problem: Kong ไม่สามารถเชื่อมต่อกับ Services](#problem-kong-ไม่สามารถเชื่อมต่อกับ-services)
+  - [Problem: Konga ไม่สามารถเชื่อมต่อกับ Kong](#problem-konga-ไม่สามารถเชื่อมต่อกับ-kong)
+  - [Problem: JWT Authentication ไม่ทำงาน](#problem-jwt-authentication-ไม่ทำงาน)
+  - [Problem: Database Migration Errors](#problem-database-migration-errors)
+  - [Problem: Port Already in Use](#problem-port-already-in-use)
+  - [Useful Commands](#useful-commands)
+- [📚 เอกสารและแหล่งข้อมูล](#-เอกสารและแหล่งข้อมูล)
+  - [Project Documentation (Google Docs)](#project-documentation-google-docs)
+  - [Kong Documentation](#kong-documentation)
+  - [Konga Documentation](#konga-documentation)
+  - [Go + Gin Framework](#go--gin-framework)
+- [📦 โครงสร้างโปรเจค (Project Structure)](#-โครงสร้างโปรเจค-project-structure)
+  - [Local Development Setup](#local-development-setup)
+  - [Dependencies Management](#dependencies-management)
+- [📂 Service Repositories](#-service-repositories)
+- [👥 ทีมพัฒนา (Development Team)](#-ทีมพัฒนา-development-team)
+- [✅ สรุปคุณสมบัติ (Features Summary)](#-สรุปคุณสมบัติ-features-summary)
+  - [What You Get](#what-you-get)
+  - [Quick Commands Recap](#quick-commands-recap)
+  - [Documentation Structure](#documentation-structure)
+  - [Learning Resources Included](#learning-resources-included)
+- [📞 ติดต่อและสนับสนุน](#-ติดต่อและสนับสนุน)
 
 ---
 
-## 🏛️ System Architecture Overview
+## 🏛️ ภาพรวมระบบ (System Overview)
 
 ### องค์ประกอบหลัก
+
+ระบบ **GameGear E-commerce** ใช้สถาปัตยกรรม **Microservices Architecture** ที่ประกอบด้วย 3 ชั้นหลัก (3-Tier Architecture):
+
+#### 🌐 **Client Layer (ชั้นลูกค้า)**
+
+- **Web Application** - เว็บไซต์หลักสำหรับลูกค้า (Customer-facing Web App)
+- **Mobile App** - แอปพลิเคชันมือถือ (Mobile Application)
+- **Admin Dashboard** - หน้าจอจัดการสำหรับผู้ดูแลระบบ (Administrative Interface)
+
+#### 🦍 **API Gateway Layer (ชั้น Gateway)**
+
+- **Kong Gateway** - จุดทางเข้าเดียว (Single Entry Point) ที่จัดการ:
+  - **Routing** - นำทางคำขอไปยัง Service ที่ถูกต้อง (Request Routing)
+  - **Authentication** - ตรวจสอบ JWT Token (Token Validation)
+  - **Rate Limiting** - จำกัดจำนวนคำขอต่อวินาที (Request Throttling)
+  - **CORS** - อนุญาตการเรียกข้าม Domain (Cross-Origin Resource Sharing)
+  - **Logging** - บันทึกการเข้าถึงและข้อผิดพลาด (Request/Response Logging)
+- **Konga UI** - หน้าจอจัดการ Kong แบบ GUI (Web-based Admin Dashboard)
+- **PostgreSQL Databases** - เก็บการตั้งค่า Kong และ Konga (Configuration Storage)
+
+#### 🏢 **Microservices Layer (ชั้นบริการ)**
+
+- **👤 Users Service** - จัดการผู้ใช้และการยืนยันตัวตน (User Management & Authentication)
+- **🛍️ Shop Service** - จัดการสินค้า, ตะกร้า, คำสั่งซื้อ (Product Catalog, Shopping Cart, Orders)
+- **🛡️ Admin Service** - ระบบหลังบ้านที่ประสานงานกับ Services อื่น (Backend Admin Panel)
+- **🗄️ PostgreSQL Databases** - ฐานข้อมูลแยกตาม Service (Service-specific Databases)
+
+#### 🔄 **การทำงานของระบบ (System Flow)**
+
+1. **Client** ส่งคำขอ HTTP มาที่ **Kong Gateway** (Port 8000) - _Client sends HTTP request to Kong Gateway_
+2. **Kong** ตรวจสอบ JWT Token, Rate Limiting, CORS - _Kong validates JWT token, applies rate limiting and CORS_
+3. **Kong** นำทางคำขอไปยัง **Service ที่ถูกต้อง** ตาม Route - _Kong routes request to appropriate service based on routing rules_
+4. **Service** ประมวลผลและส่งคำตอบกลับผ่าน **Kong** - _Service processes request and returns response through Kong_
+5. **Kong** ส่งคำตอบกลับไปยัง **Client** - _Kong forwards response back to client_
+
+#### 🎯 **ข้อดีของสถาปัตยกรรมนี้ (Architecture Benefits)**
+
+- **Scalability** - สามารถขยายแต่ละ Service แยกกันได้ (Independent scaling of services)
+- **Maintainability** - แก้ไข Service เดียวไม่กระทบ Service อื่น (Isolated maintenance and updates)
+- **Security** - มีจุดควบคุมความปลอดภัยที่เดียว (Centralized security control via Kong)
+- **Flexibility** - ใช้เทคโนโลยีต่างกันได้ในแต่ละ Service (Technology-agnostic service development)
+- **Team Development** - ทีมสามารถพัฒนา Service แยกกันได้ (Independent team development)
 
 ```mermaid
 graph TB
@@ -78,15 +122,15 @@ graph TB
 
     subgraph "API Gateway Layer"
         KONGA[🖥️ Konga Admin UI<br/>:1337]
-        KONG[🦍 Kong Gateway<br/>Proxy :8888<br/>Admin API :8001]
+        KONG[🦍 Kong Gateway<br/>Proxy :8000<br/>Admin API :8001]
         KONG_DB[(🗄️ Kong PostgreSQL<br/>Configuration DB)]
         KONGA_DB[(🗄️ Konga PostgreSQL<br/>UI Database)]
     end
 
     subgraph "Microservices Layer"
-        USERS[👤 Users Service<br/>:8080<br/>Auth & User Management]
-        SHOP[🛍️ Shop Service<br/>:8081<br/>Products, Cart, Orders]
-        ADMIN[🛡️ Admin Service<br/>:8082<br/>Backend Admin Panel]
+        USERS[👤 Users Service<br/>:8081<br/>Auth & User Management]
+        SHOP[🛍️ Shop Service<br/>:8082<br/>Products, Cart, Orders]
+        ADMIN[🛡️ Admin Service<br/>:8083<br/>Backend Admin Panel]
 
         USERS_DB[(🗄️ Users DB<br/>PostgreSQL)]
         SHOP_DB[(🗄️ Shop DB<br/>PostgreSQL)]
@@ -122,15 +166,15 @@ graph TB
     style ADMIN fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
 ```
 
-### 🔑 องค์ประกอบหลัก
+### 🔑 รายละเอียดเทคนิค
 
 | Component            | Description                                                              | Port                              | Technology         |
 | -------------------- | ------------------------------------------------------------------------ | --------------------------------- | ------------------ |
 | **🦍 Kong Gateway**  | API Gateway หลัก - จัดการ Routing, JWT Validation, Rate Limiting, CORS   | 8000 (Proxy)<br/>8001 (Admin API) | Kong 3.4 (DB Mode) |
 | **🖥️ Konga UI**      | Web-based Admin Dashboard สำหรับจัดการ Kong แบบ GUI                      | 1337                              | Konga (Node.js)    |
-| **👤 Users Service** | จัดการผู้ใช้และการยืนยันตัวตน (Register, Login, Profile, Password Reset) | 8080                              | Go + Gin + GORM    |
-| **🛍️ Shop Service**  | จัดการสินค้า, ตะกร้า, คำสั่งซื้อ                                         | 8081                              | Go + Gin + GORM    |
-| **🛡️ Admin Service** | ระบบหลังบ้าน (Admin Panel) - ประสานงานกับ Users/Shop ผ่าน Kong           | 8082                              | Go + Gin           |
+| **👤 Users Service** | จัดการผู้ใช้และการยืนยันตัวตน (Register, Login, Profile, Password Reset) | 8081                              | Go + Gin + GORM    |
+| **🛍️ Shop Service**  | จัดการสินค้า, ตะกร้า, คำสั่งซื้อ                                         | 8082                              | Go + Gin + GORM    |
+| **🛡️ Admin Service** | ระบบหลังบ้าน (Admin Panel) - ประสานงานกับ Users/Shop ผ่าน Kong           | 8083                              | Go + Gin           |
 | **🗄️ PostgreSQL**    | ฐานข้อมูลสำหรับแต่ละ Service + Kong + Konga                              | 5432 (varies)                     | PostgreSQL 15/17   |
 
 ### Request Flow Example
@@ -143,7 +187,7 @@ sequenceDiagram
     participant ShopService
 
     Client->>Kong: POST /users/login<br/>{email, password}
-    Kong->>UsersService: Forward to :8080/login
+    Kong->>UsersService: Forward to :8081/login
     UsersService-->>Kong: {token: "jwt-token", user: {...}}
     Kong-->>Client: Response + JWT
 
@@ -158,21 +202,9 @@ sequenceDiagram
 
 ---
 
-## 📘 API Documentation (OpenAPI / Swagger)
-
-ทุก Service มี Swagger UI สำหรับอ้างอิงและทดสอบ API:
-
-| Service       | Direct Access (Dev Only)                                                      | Via Kong Gateway (Production)                    | Description                |
-| ------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------- |
-| Users Service | [localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) | `http://localhost:8000/users/swagger/index.html` | สมัคร, ล็อกอิน, โปรไฟล์    |
-| Shop Service  | [localhost:8081/swagger/index.html](http://localhost:8081/swagger/index.html) | `http://localhost:8000/shop/swagger/index.html`  | สินค้า, ตะกร้า, คำสั่งซื้อ |
-| Admin Service | [localhost:8082/swagger/index.html](http://localhost:8082/swagger/index.html) | `http://localhost:8000/admin/swagger/index.html` | ฟังก์ชันผู้ดูแลระบบ        |
-
-> 💡 **Best Practice**: ใน Production ควรปิด Direct Access และเรียกผ่าน Kong Gateway เท่านั้น
-
 ---
 
-## 🦍 Kong Gateway + Konga Setup (DB Mode)
+## 🚀 เริ่มต้นใช้งาน (Getting Started)
 
 โปรเจกต์นี้ใช้ **Kong Gateway (DB Mode)** พร้อม **Konga Admin UI** เพื่อให้สามารถจัดการ Services, Routes, และ Plugins ผ่าน Web Interface ได้แบบ Real-time
 
@@ -188,17 +220,55 @@ sequenceDiagram
 
 ---
 
-## 🚀 Quick Start: ติดตั้งและรัน Kong + Konga
+## ⚡ ติดตั้งและรันระบบ (Installation & Setup)
 
 > 👤 **ผู้รับผิดชอบ Kong Gateway Setup**: **วรรธนโรจน์ บุตรดี** (Project Manager)  
 > 📝 หากมีปัญหาเกี่ยวกับ Kong Gateway, Konga UI หรือการตั้งค่า Routes/Plugins กรุณาติดต่อ
 
+### 🎯 **ภาพรวมของส่วนนี้**
+
+ส่วนนี้จะอธิบายขั้นตอนการตั้งค่า **Kong API Gateway** และ **Konga Admin UI** เพื่อให้ระบบ Microservices ทำงานร่วมกันได้ โดยมีขั้นตอนหลักดังนี้:
+
+1. **🌐 Remote Development** - อธิบายการใช้ ngrok สำหรับการพัฒนาแบบทีม
+2. **🦍 Kong Gateway + Konga** - ติดตั้งและรัน Kong Gateway พร้อม Konga UI
+3. **🔧 ตั้งค่า Services และ Routes** - กำหนดค่า Services และ Routes ใน Konga
+4. **🔌 ตั้งค่า Plugins** - กำหนดค่า CORS, JWT, Rate Limiting
+5. **🧪 ทดสอบการเชื่อมต่อ** - ตรวจสอบว่าระบบทำงานถูกต้อง
+
+> 💡 **หมายเหตุ**: ส่วนนี้เป็นขั้นตอนการตั้งค่า **Gateway และ Microservices** เพื่อให้ระบบทำงานร่วมกันได้
+
 ### Prerequisites
 
 - Docker และ Docker Compose ติดตั้งแล้ว
-- Port ว่าง: `8000`, `8001`, `1337`, `8080`, `8081`, `8082`
+- Port ว่าง: `8000`, `8001`, `1337`, `8081`, `8082`, `8083`
 
-### 1️⃣ เริ่ม Kong Gateway + Konga
+### 🌐 Remote Development (ngrok หรือ Tunnel)
+
+> 🎯 **จุดประสงค์**: อธิบายวิธีการใช้ ngrok สำหรับการพัฒนาแบบทีม เพื่อให้ services สื่อสารกันได้ผ่าน Kong Gateway
+
+ในการพัฒนาแบบทีม แต่ละ service จะรัน **local** บนเครื่องของแต่ละคน (ไม่ใช้ Docker Compose) ดังนั้นจึงต้องใช้ **ngrok** เพื่อสร้าง tunnel ให้ services สื่อสารกันได้ผ่านอินเทอร์เน็ต
+
+#### 🎯 **เหตุผลที่ต้องใช้ ngrok:**
+
+| เหตุผล                             | รายละเอียด                                                                                                                                            |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🌍 **การทำงานคนละเครื่อง**         | แต่ละคนรัน service บนเครื่องของตัวเอง (users-service, shop-service, admin-service) ต้องใช้ ngrok แชร์ URL ให้กันเพื่อให้เชื่อมต่อได้ผ่าน Kong Gateway |
+| ⚙️ **Integration กับ Kong**        | Kong สามารถใช้ URL จาก ngrok เป็นปลายทาง service ได้โดยตรง เช่น `USER_SERVICE_URL=https://abc1234.ngrok.io` เพื่อ proxy ไปยังเครื่องเพื่อน            |
+| 🚀 **สะดวกต่อการทดสอบ**            | ใช้ทดสอบระบบรวม (Integration Test) ระหว่าง service จริง โดยไม่ต้อง deploy ขึ้นเซิร์ฟเวอร์กลาง                                                         |
+| 🎓 **ใช้สาธิต/ส่งอาจารย์ได้ทันที** | สามารถเปิดระบบในเครื่องแล้วแชร์ให้ผู้สอนหรือผู้ทดสอบเข้ามาเรียก API ได้ผ่านอินเทอร์เน็ต                                                               |
+
+#### 📋 **วิธีการทำงาน:**
+
+1. **แต่ละคนรัน service บนเครื่องของตัวเอง** (local development)
+2. **ใช้ ngrok สร้าง tunnel** เพื่อแชร์ URL ให้เพื่อนร่วมทีม
+3. **Kong Gateway ใช้ ngrok URL** เป็นปลายทางของแต่ละ service
+4. **ทดสอบระบบรวม** ผ่าน Kong Gateway ที่ port 8000
+
+> 🔸 **สรุป**: แต่ละ service รัน local + ใช้ ngrok → Kong เชื่อมต่อได้ครบทุก service
+
+### 1️. เริ่ม Kong Gateway + Konga
+
+> 🎯 **จุดประสงค์**: ติดตั้งและรัน Kong Gateway พร้อม Konga UI เพื่อเป็นจุดกลางในการจัดการ Microservices
 
 ใช้ไฟล์ `docker-compose.kong.yml` ที่มีอยู่ใน admin-service directory:
 
@@ -210,7 +280,7 @@ docker compose -f docker-compose.kong.yml up -d
 
 **หมายเหตุ:** Kong Gateway จัดการโดย PM (วรรธนโรจน์) ใน admin-service เท่านั้น
 
-### 2️⃣ รัน Services (สำหรับ Developers)
+### 2️. รัน Services (สำหรับ Developers)
 
 **สำหรับ Users Service (ณิชพน):**
 
@@ -219,7 +289,7 @@ cd users-service
 go run cmd/api/main.go
 
 # Terminal ใหม่
-ngrok http 8080
+ngrok http 8081
 # แชร์ URL: https://abc123.ngrok.io
 ```
 
@@ -230,7 +300,7 @@ cd shop-service
 go run cmd/api/main.go
 
 # Terminal ใหม่
-ngrok http 8081
+ngrok http 8082
 # แชร์ URL: https://def456.ngrok.io
 ```
 
@@ -241,11 +311,11 @@ cd admin-service
 go run cmd/api/main.go
 
 # Terminal ใหม่
-ngrok http 8082
+ngrok http 8083
 # แชร์ URL: https://ghi789.ngrok.io
 ```
 
-### 3️⃣ ตรวจสอบ Services
+### 3️. ตรวจสอบ Services
 
 ```bash
 # ตรวจสอบว่า Kong ทำงาน
@@ -255,7 +325,7 @@ curl -i http://localhost:8001/
 curl -i http://localhost:1337/
 ```
 
-### 4️⃣ เปิด Konga UI และตั้งค่าครั้งแรก
+### 4️. เปิด Konga UI และตั้งค่าครั้งแรก
 
 1. เปิด browser ไปที่ **http://localhost:1337**
 2. สร้างบัญชี Admin ครั้งแรก:
@@ -274,7 +344,9 @@ curl -i http://localhost:1337/
 
 ---
 
-## 🔧 การตั้งค่า Services และ Routes ใน Konga
+## 🔧 ตั้งค่า Services และ Routes
+
+> 🎯 **จุดประสงค์**: กำหนดค่า Services และ Routes ใน Konga UI เพื่อให้ Kong Gateway รู้จักและนำทางคำขอไปยัง Microservices ที่ถูกต้อง
 
 ### ขั้นตอนการเพิ่ม Service ใหม่
 
@@ -335,7 +407,9 @@ curl http://localhost:8000/admin/healthz
 
 ---
 
-## 🔌 เพิ่ม Plugins ที่จำเป็น
+## 🔌 ตั้งค่า Plugins
+
+> 🎯 **จุดประสงค์**: กำหนดค่า Plugins (CORS, JWT, Rate Limiting) เพื่อเพิ่มความปลอดภัยและความสามารถให้กับ Kong Gateway
 
 ### 1. CORS Plugin สำหรับ Frontend
 
@@ -376,7 +450,7 @@ curl http://localhost:8000/admin/healthz
 
 ---
 
-## 📁 โครงสร้าง Docker Compose (admin-service/docker-compose.kong.yml)
+## 📁 ไฟล์ Docker Compose
 
 ```yaml
 # =====================================================
@@ -525,22 +599,22 @@ services:
 
 ---
 
-## 🌐 Ports Summary
+## 🌐 รายการ Ports
 
 | Service               | Port | Access URL            | Description                        |
 | --------------------- | ---- | --------------------- | ---------------------------------- |
 | 🦍 **Kong Proxy**     | 8000 | http://localhost:8000 | API Gateway - ใช้เรียก API ทั้งหมด |
 | 🔧 **Kong Admin API** | 8001 | http://localhost:8001 | Admin API (Dev only)               |
 | 🖥️ **Konga UI**       | 1337 | http://localhost:1337 | Web Dashboard จัดการ Kong          |
-| 👤 **Users Service**  | 8080 | http://localhost:8080 | Direct access (Dev only)           |
-| 🛍️ **Shop Service**   | 8081 | http://localhost:8081 | Direct access (Dev only)           |
-| 🛡️ **Admin Service**  | 8082 | http://localhost:8082 | Direct access (Dev only)           |
+| 👤 **Users Service**  | 8081 | http://localhost:8081 | Direct access (Dev only)           |
+| 🛍️ **Shop Service**   | 8082 | http://localhost:8082 | Direct access (Dev only)           |
+| 🛡️ **Admin Service**  | 8083 | http://localhost:8083 | Direct access (Dev only)           |
 
 > ⚠️ **Production**: ควรปิด Direct Access และให้เรียกผ่าน Kong Proxy (port 8000) เท่านั้น
 
 ---
 
-## 🐋 Healthcheck Endpoints
+## 🐋 Health Check Endpoints
 
 แต่ละ Service ควรมี `/healthz` endpoint สำหรับตรวจสอบสถานะ:
 
@@ -565,7 +639,7 @@ func main() {
 
     // ... other routes
 
-    r.Run(":8080")
+    r.Run(":8081")
 }
 ```
 
@@ -587,7 +661,7 @@ curl http://localhost:8000/admin/healthz
 
 ---
 
-## 🔍 Troubleshooting
+## 🔍 แก้ไขปัญหา (Troubleshooting)
 
 ### Problem: Kong ไม่สามารถเชื่อมต่อกับ Services
 
@@ -601,9 +675,9 @@ curl http://localhost:8000/admin/healthz
 1. **ตรวจสอบว่า Services ทำงานอยู่:**
 
    ```bash
-   curl http://localhost:8080/healthz  # Users
-   curl http://localhost:8081/healthz  # Shop
-   curl http://localhost:8082/healthz  # Admin
+   curl http://localhost:8081/healthz  # Users
+   curl http://localhost:8082/healthz  # Shop
+   curl http://localhost:8083/healthz  # Admin
    ```
 
 2. **ตรวจสอบ Docker Network:**
@@ -720,7 +794,7 @@ curl http://localhost:8001/plugins
 
 ---
 
-## 📚 Additional Resources
+## 📚 เอกสารและแหล่งข้อมูล
 
 ### Project Documentation (Google Docs)
 
@@ -751,7 +825,39 @@ curl http://localhost:8001/plugins
 
 - [Gin Web Framework](https://gin-gonic.com/)
 - [GORM Documentation](https://gorm.io/)
-- [Swag (Swagger for Go)](https://github.com/swaggo/swag)
+
+---
+
+## 📦 โครงสร้างโปรเจค (Project Structure)
+
+แต่ละ Service ใช้ Go Module สำหรับจัดการ dependencies:
+
+| Service           | Module Name                         | Description                      |
+| ----------------- | ----------------------------------- | -------------------------------- |
+| **Users Service** | `github.com/gamegear/users-service` | Authentication & User Management |
+| **Shop Service**  | `github.com/gamegear/shop-service`  | Products, Cart & Orders          |
+| **Admin Service** | `github.com/gamegear/admin-service` | Backend Admin Panel              |
+
+### Local Development Setup
+
+สำหรับการพัฒนาในเครื่อง local แต่ละ service ใช้ `replace` directive ใน `go.mod`:
+
+```go
+// ใน admin-service/go.mod
+replace github.com/gamegear/users-service => ../users-service
+replace github.com/gamegear/shop-service => ../shop-service
+
+// ใน shop-service/go.mod
+replace github.com/gamegear/users-service => ../users-service
+```
+
+### Dependencies Management
+
+- **Go Version**: 1.25.1 (ทุก service)
+- **Database**: GORM + PostgreSQL (users-service, shop-service)
+- **Web Framework**: Gin (ทุก service)
+- **Authentication**: JWT (ทุก service)
+- **API Testing**: Postman (ทุก service)
 
 ---
 
@@ -765,7 +871,7 @@ curl http://localhost:8001/plugins
 
 ---
 
-## 🤝 Development Team
+## 👥 ทีมพัฒนา (Development Team)
 
 | Profile                                                                                                                       | Name                  | Responsibility            |
 | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------- |
@@ -776,14 +882,13 @@ curl http://localhost:8001/plugins
 
 ---
 
-## ✅ Summary & Key Features
+## ✅ สรุปคุณสมบัติ (Features Summary)
 
 ### What You Get
 
 - ✅ **Kong Gateway (DB Mode)** - API Gateway หลักพร้อม PostgreSQL backing
 - ✅ **Konga Admin UI** - จัดการ Kong แบบ GUI สะดวก ไม่ต้องใช้ Command Line
 - ✅ **3 Microservices** - Users, Shop, Admin แยกกันชัดเจน
-- ✅ **Swagger Documentation** - ทุก service มีเอกสาร API แบบ Interactive
 - ✅ **Mermaid Diagrams** - Architecture และ Flow diagrams ในเอกสาร
 - ✅ **Docker Compose Ready** - รันทั้งระบบด้วยคำสั่งเดียว
 - ✅ **Healthcheck Endpoints** - ตรวจสอบสถานะ service ได้ทันที
@@ -806,11 +911,6 @@ open http://localhost:1337
 curl http://localhost:8000/users/healthz
 curl http://localhost:8000/shop/healthz
 curl http://localhost:8000/admin/healthz
-
-# 5. ดู Swagger Documentation
-open http://localhost:8080/swagger/index.html  # Users
-open http://localhost:8081/swagger/index.html  # Shop
-open http://localhost:8082/swagger/index.html  # Admin
 ```
 
 ### Documentation Structure
@@ -823,18 +923,21 @@ GameGear-Ecommerce/
 │   ├── README.md (Detailed setup for Users Service)
 │   ├── go.mod
 │   ├── go.sum
+│   ├── .env.example
 │   └── internal/ (handlers, models, repositories, services)
 ├── shop-service/ (Shop Service Repository)
 │   ├── README.md (Detailed setup for Shop Service)
 │   ├── go.mod
 │   ├── go.sum
+│   ├── .env.example
 │   └── internal/ (handlers, models, repositories, services)
 └── admin-service/ (Admin Service Repository)
     ├── README.md (Detailed setup for Admin Service)
     ├── docker-compose.kong.yml (Kong Gateway + Konga UI)
     ├── go.mod
     ├── go.sum
-    └── internal/ (handlers, models, repositories, services)
+    ├── .env.example
+    └── internal/ (handlers, models, services, clients)
 ```
 
 > 💡 **หมายเหตุ**: แต่ละ service เป็น repository แยกกันบน GitHub
@@ -844,12 +947,13 @@ GameGear-Ecommerce/
 - **Architecture Diagrams**: Mermaid diagrams แสดงโครงสร้างระบบและ Request Flow
 - **Setup Guides**: คำแนะนำทีละขั้นตอนสำหรับ Kong และ Konga
 - **Plugin Configuration**: ตัวอย่างการตั้งค่า CORS, JWT, Rate Limiting
+- **API Testing**: คำแนะนำการทดสอบ API ด้วย Postman
 - **Troubleshooting**: วิธีแก้ปัญหาที่พบบ่อยพร้อมคำสั่ง
 - **Best Practices**: แนวทางที่ดีสำหรับ Development และ Production
 
 ---
 
-## 📞 Support & Contact
+## 📞 ติดต่อและสนับสนุน
 
 หากมีปัญหาหรือคำถาม:
 
