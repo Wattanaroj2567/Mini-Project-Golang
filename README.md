@@ -15,8 +15,7 @@
 
 ## 📋 Table of Contents
 
-- [🏛️ ภาพรวมระบบ (System Overview)](#%EF%B8%8F-ภาพรวมระบบ-system-overview)
-  - [องค์ประกอบหลัก](#องค์ประกอบหลัก)
+- [🏛️ ภาพรวมระบบ (System Overview)](#%EF%B8%8F-ภาพรวมระบบ-  - [องค์ประกอบหลัก](#องค์ประกอบหลัก)
   - [🔑 รายละเอียดเทคนิค](#-รายละเอียดเทคนิค)
   - [Request Flow Example](#request-flow-example)
 - [🚀 เริ่มต้นใช้งาน (Getting Started)](#-เริ่มต้นใช้งาน-getting-started)
@@ -53,6 +52,10 @@
 - [📂 Service Repositories](#-service-repositories)
 - [👥 ทีมพัฒนา (Development Team)](#-ทีมพัฒนา-development-team)
 
+-included)
+- [📞 ติดต่อและสนับสนุน](#-ติดต่อและสนับสนุน)
+
+---
 
 ## 🏛️ ภาพรวมระบบ (System Overview)
 
@@ -404,58 +407,256 @@ curl -sS http://localhost:8000/admin/healthz
 
 ## 📡 API Endpoints Overview (ผ่าน Kong Proxy)
 
-> Base URL: `http://localhost:8000` (หรือ URL จาก ngrok ที่ตั้งในหัวข้อ 5.4)
+> Base URL: `http://localhost:8000` (ถ้าใช้ ngrok ให้แทนด้วย URL จากหัวข้อ 5.4)
 
 ### Users Service (`/users`)
 
-| Method | Path                          | หมายเหตุ                           |
-| ------ | ----------------------------- | ---------------------------------- |
-| POST   | `/api/auth/register`         | สมัครสมาชิก                       |
-| POST   | `/api/auth/login`            | ล็อกอินสมาชิก รับ JWT             |
-| POST   | `/api/auth/logout`           | ออกจากระบบ (ต้องมี Member JWT)   |
-| POST   | `/api/auth/forgot-password`  | ขอรีเซ็ตรหัสผ่าน                  |
-| POST   | `/api/auth/reset-password`   | ตั้งรหัสผ่านใหม่                  |
-| GET    | `/api/user/profile`          | ดูโปรไฟล์ (Member JWT)            |
-| PUT    | `/api/user/profile`          | แก้ไขโปรไฟล์/เปลี่ยนรหัสผ่าน     |
-| POST   | `/api/admin/register`        | สมัครแอดมิน                        |
-| POST   | `/api/admin/login`           | ล็อกอินแอดมิน รับ JWT             |
-| POST   | `/api/admin/logout`          | ออกจากระบบแอดมิน (Admin JWT)     |
-| POST   | `/api/admin/forgot-password` | ขอรีเซ็ตรหัสผ่านแอดมิน           |
-| POST   | `/api/admin/reset-password`  | ตั้งรหัสผ่านใหม่สำหรับแอดมิน     |
+**Member Authentication**
+
+- `POST /api/auth/register` — ลงทะเบียนสมาชิกใหม่
+  ```bash
+  curl -X POST http://localhost:8000/users/api/auth/register \
+    -H "Content-Type: application/json" \
+    -d '{
+      "username": "tawan123",
+      "display_name": "Tawan Gamer",
+      "email": "tawan@example.com",
+      "password": "password123",
+      "confirm_password": "password123"
+    }'
+  ```
+- `POST /api/auth/login` — เข้าสู่ระบบด้วยอีเมลหรือชื่อผู้ใช้
+  ```bash
+  curl -X POST http://localhost:8000/users/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"identifier":"tawan@example.com","password":"password123"}'
+  ```
+- `POST /api/auth/forgot-password` — ขออีเมลรีเซ็ตรหัสผ่าน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/auth/forgot-password \
+    -H "Content-Type: application/json" \
+    -d '{"email":"tawan@example.com"}'
+  ```
+- `POST /api/auth/reset-password` — ตั้งรหัสผ่านใหม่ด้วยโทเคน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/auth/reset-password \
+    -H "Content-Type: application/json" \
+    -d '{
+      "token":"RESET_TOKEN_HERE",
+      "new_password":"newpassword123",
+      "confirm_password":"newpassword123"
+    }'
+  ```
+- `POST /api/auth/logout` — ออกจากระบบและเพิกถอนโทเคน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/auth/logout \
+    -H "Authorization: Bearer MEMBER_JWT"
+  ```
+
+**Member Profile**
+
+- `GET /api/user/profile` — ดูข้อมูลโปรไฟล์ผู้ใช้ปัจจุบัน
+  ```bash
+  curl http://localhost:8000/users/api/user/profile \
+    -H "Authorization: Bearer MEMBER_JWT"
+  ```
+- `PUT /api/user/profile` — แก้ไขข้อมูลโปรไฟล์ / รูปภาพ / ชื่อแสดง
+  ```bash
+  curl -X PUT http://localhost:8000/users/api/user/profile \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "display_name": "Tawan Updated",
+      "profile_image": "https://example.com/avatar.png"
+    }'
+  ```
+
+**Admin Authentication (ใช้โดย admin-service)**
+
+- `POST /api/admin/login` — ล็อกอินแอดมินเพื่อรับ JWT
+  ```bash
+  curl -X POST http://localhost:8000/users/api/admin/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"admin@gamegear.com","password":"admin123"}'
+  ```
+- `POST /api/admin/register` — สร้างบัญชีแอดมินใหม่
+  ```bash
+  curl -X POST http://localhost:8000/users/api/admin/register \
+    -H "Content-Type: application/json" \
+    -d '{
+      "email": "new.admin@gamegear.com",
+      "password": "securePassword123",
+      "confirm_password": "securePassword123",
+      "display_name": "Operations Lead"
+    }'
+  ```
+- `POST /api/admin/forgot-password` — ขออีเมลรีเซ็ตรหัสผ่านแอดมิน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/admin/forgot-password \
+    -H "Content-Type: application/json" \
+    -d '{"email":"admin@gamegear.com"}'
+  ```
+- `POST /api/admin/reset-password` — ตั้งรหัสผ่านใหม่สำหรับแอดมิน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/admin/reset-password \
+    -H "Content-Type: application/json" \
+    -d '{
+      "token":"RESET_TOKEN_FROM_EMAIL",
+      "new_password":"NewStrongPassword123",
+      "confirm_password":"NewStrongPassword123"
+    }'
+  ```
+- `POST /api/admin/logout` — ออกจากระบบแอดมิน
+  ```bash
+  curl -X POST http://localhost:8000/users/api/admin/logout \
+    -H "Authorization: Bearer ADMIN_JWT"
+  ```
+
+> รายละเอียดเพิ่มเติมและตัวอย่างอื่น ๆ ดูได้ที่ [users-service README – JSON Request Examples](https://github.com/Wattanaroj2567/users-service/tree/develop?tab=readme-ov-file#23-json-request-examples)
 
 ### Shop Service (`/shop`)
 
-| Method | Path                         | หมายเหตุ                                      |
-| ------ | ---------------------------- | --------------------------------------------- |
-| GET    | `/api/products`              | สินค้าทั้งหมด (สาธารณะ)                     |
-| GET    | `/api/products/:id`          | รายละเอียดสินค้า                              |
-| GET    | `/api/cart`                  | ดูตะกร้าสินค้า (Member JWT)                  |
-| POST   | `/api/cart/add`              | เพิ่มสินค้าในตะกร้า                           |
-| PUT    | `/api/cart/update`           | ปรับจำนวนสินค้าในตะกร้า                      |
-| DELETE | `/api/cart/remove`           | ลบสินค้าออกจากตะกร้า                         |
-| POST   | `/api/orders`                | สร้างคำสั่งซื้อ                               |
-| GET    | `/api/orders/history`        | ประวัติคำสั่งซื้อของฉัน                      |
-| POST   | `/api/products`              | เพิ่มสินค้า (Admin JWT)                      |
-| PUT    | `/api/products/:id`          | แก้ไขสินค้า (Admin JWT)                      |
-| DELETE | `/api/products/:id`          | ลบสินค้า (Admin JWT)                          |
-| GET    | `/api/orders`                | ดูคำสั่งซื้อทั้งหมด (Admin JWT)              |
-| PUT    | `/api/orders/:id/status`     | ปรับสถานะคำสั่งซื้อ (Admin JWT)              |
+**สินค้า (public)**
+
+- `GET /api/products` — ดึงรายการสินค้า (รองรับ paging/filter)
+  ```bash
+  curl "http://localhost:8000/shop/api/products?page=1&limit=12"
+  ```
+- `GET /api/products/:id` — ดูรายละเอียดสินค้าแต่ละชิ้น
+  ```bash
+  curl http://localhost:8000/shop/api/products/1
+  ```
+
+**ตะกร้า (ต้องมี Member JWT)**
+
+- `GET /api/cart` — ดูรายการสินค้าในตะกร้าปัจจุบัน
+  ```bash
+  curl http://localhost:8000/shop/api/cart \
+    -H "Authorization: Bearer MEMBER_JWT"
+  ```
+- `POST /api/cart/add` — เพิ่มสินค้าเข้าในตะกร้า
+  ```bash
+  curl -X POST http://localhost:8000/shop/api/cart/add \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{"product_id":42,"quantity":2}'
+  ```
+- `PUT /api/cart/update` — ปรับจำนวนสินค้าในตะกร้า
+  ```bash
+  curl -X PUT http://localhost:8000/shop/api/cart/update \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{"cart_item_id":101,"quantity":3}'
+  ```
+- `DELETE /api/cart/remove` — ลบสินค้าออกจากตะกร้า
+  ```bash
+  curl -X DELETE http://localhost:8000/shop/api/cart/remove \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{"cart_item_id":101}'
+  ```
+
+**คำสั่งซื้อ**
+
+- `POST /api/orders`
+  ```bash
+  curl -X POST http://localhost:8000/shop/api/orders \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "cart_id": 12,
+      "shipping_address": "123 ถนนสุขุมวิท กรุงเทพฯ 10110",
+      "payment_method": "credit_card",
+      "notes": "กรุณาส่งช่วง 9:00-17:00"
+    }'
+  ```
+- `GET /api/orders/history`
+  ```bash
+  curl http://localhost:8000/shop/api/orders/history \
+    -H "Authorization: Bearer MEMBER_JWT"
+  ```
+
+> ดูตัวอย่างอื่น ๆ ได้ที่ [shop-service README – JSON Request Examples](https://github.com/Wattanaroj2567/shop-service/tree/develop?tab=readme-ov-file#24-json-request-examples)
 
 ### Admin Service (`/admin`)
 
-| Method | Path                           | หมายเหตุ                                         |
-| ------ | ------------------------------ | ------------------------------------------------ |
-| POST   | `/api/admin/register`          | สร้างบัญชีแอดมิน (proxy ไป users-service)       |
-| POST   | `/api/admin/login`             | ล็อกอินแอดมิน                                   |
-| POST   | `/api/admin/logout`            | ออกจากระบบแอดมิน                                |
-| POST   | `/api/admin/forgot-password`   | ขอรีเซ็ตรหัสผ่าน                                |
-| POST   | `/api/admin/reset-password`    | ตั้งรหัสผ่านใหม่                                 |
-| GET    | `/api/admin/products`          | ดูสินค้าทั้งหมด (ดึงจาก shop-service)          |
-| POST   | `/api/admin/products`          | เพิ่มสินค้าใหม่                                  |
-| PUT    | `/api/admin/products/:id`      | แก้ไขสินค้า                                      |
-| DELETE | `/api/admin/products/:id`      | ลบสินค้า                                        |
-| GET    | `/api/admin/orders`            | ดูคำสั่งซื้อทั้งหมด                              |
-| PUT    | `/api/admin/orders/:id/status` | อัปเดตสถานะคำสั่งซื้อ                            |
+**Auth แอดมิน**
+
+- `POST /api/admin/login` — ล็อกอินแอดมินผ่าน Kong
+  ```bash
+  curl -X POST http://localhost:8000/admin/api/admin/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"admin@gamegear.com","password":"admin123"}'
+  ```
+- `POST /api/admin/register` — สมัครแอดมินใหม่ (proxy ไป users-service)
+  ```bash
+  curl -X POST http://localhost:8000/admin/api/admin/register \
+    -H "Content-Type: application/json" \
+    -d '{
+      "email": "new.admin@gamegear.com",
+      "password": "securePassword123",
+      "confirm_password": "securePassword123",
+      "display_name": "Operations Lead"
+    }'
+  ```
+
+**จัดการสินค้า (ต้องมี Admin JWT)**
+
+- `GET /api/admin/products` — ดึงทั้งหมดมาจัดการในแดชบอร์ด
+  ```bash
+  curl http://localhost:8000/admin/api/admin/products \
+    -H "Authorization: Bearer ADMIN_JWT"
+  ```
+- `POST /api/admin/products` — เพิ่มสินค้าใหม่ (ยิงไป shop-service)
+  ```bash
+  curl -X POST http://localhost:8000/admin/api/admin/products \
+    -H "Authorization: Bearer ADMIN_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Gaming Keyboard RGB",
+      "description": "คีย์บอร์ดเกมมิ่งพร้อมไฟ RGB",
+      "price": 2599,
+      "stock": 30,
+      "category_id": 2,
+      "image_url": "https://example.com/keyboard.jpg"
+    }'
+  ```
+- `PUT /api/admin/products/:id` — ปรับปรุงข้อมูลสินค้าเดิม
+  ```bash
+  curl -X PUT http://localhost:8000/admin/api/admin/products/1 \
+    -H "Authorization: Bearer ADMIN_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Gaming Keyboard RGB Pro",
+      "description": "คีย์บอร์ดเกมมิ่งรุ่น Pro",
+      "price": 2999,
+      "stock": 20,
+      "category_id": 2,
+      "image_url": "https://example.com/keyboard-pro.jpg"
+    }'
+  ```
+- `DELETE /api/admin/products/:id` — ลบสินค้าออกจากระบบ
+  ```bash
+  curl -X DELETE http://localhost:8000/admin/api/admin/products/1 \
+    -H "Authorization: Bearer ADMIN_JWT"
+  ```
+
+**จัดการคำสั่งซื้อ**
+
+- `GET /api/admin/orders`
+  ```bash
+  curl http://localhost:8000/admin/api/admin/orders \
+    -H "Authorization: Bearer ADMIN_JWT"
+  ```
+- `PUT /api/admin/orders/:id/status`
+  ```bash
+  curl -X PUT http://localhost:8000/admin/api/admin/orders/1/status \
+    -H "Authorization: Bearer ADMIN_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{"status":"shipped"}'
+  ```
+
+> JSON ตัวอย่างทั้งหมดอยู่ใน [admin-service README – JSON Request Examples](https://github.com/Wattanaroj2567/admin-service/tree/develop?tab=readme-ov-file#24-json-request-examples)
 
 ### Quick Endpoint Checks
 
@@ -723,6 +924,3 @@ replace github.com/gamegear/users-service => ../users-service
 | [<img src="https://avatars.githubusercontent.com/u/160033040?v=4" width="60" height="60"/>](https://github.com/FUJIKOTH)      | **วายุ กอคูณ**        | Backend Developer         |
 
 ---
-
-
-
