@@ -460,7 +460,7 @@ curl -sS http://localhost:8000/admin/healthz
   curl http://localhost:8000/users/api/user/profile \
     -H "Authorization: Bearer MEMBER_JWT"
   ```
-- `PUT /api/user/profile` — แก้ไขข้อมูลโปรไฟล์ / รูปภาพ / ชื่อแสดง / เปลี่ยนรหัสผ่าน / ลบบัญชี
+- `PUT /api/user/profile` — แก้ไขข้อมูลโปรไฟล์หรือเปลี่ยนรหัสผ่าน
   ```bash
   curl -X PUT http://localhost:8000/users/api/user/profile \
     -H "Authorization: Bearer MEMBER_JWT" \
@@ -470,16 +470,13 @@ curl -sS http://localhost:8000/admin/healthz
       "profile_image": "https://example.com/avatar.png"
     }'
   ```
-  - หากต้องการ **ลบบัญชี** ให้ส่ง `delete_account_flag=true` พร้อมรหัสผ่านปัจจุบัน เช่น
-    ```bash
-    curl -X PUT http://localhost:8000/users/api/user/profile \
-      -H "Authorization: Bearer MEMBER_JWT" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "delete_account_flag": true,
-        "password": "currentPassword123"
-      }'
-    ```
+- `DELETE /api/user/profile` — ลบบัญชีสมาชิกด้วยการยืนยันรหัสผ่านปัจจุบัน
+  ```bash
+  curl -X DELETE http://localhost:8000/users/api/user/profile \
+    -H "Authorization: Bearer MEMBER_JWT" \
+    -H "Content-Type: application/json" \
+    -d '{"password":"currentPassword123"}'
+  ```
 
 **Admin Authentication (ใช้โดย admin-service)**
 
