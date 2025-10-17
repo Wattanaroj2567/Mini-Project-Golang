@@ -347,14 +347,14 @@ curl -sS http://localhost:8000/admin/healthz
 
 1. ติดตั้งและล็อกอิน ngrok จาก [ngrok.com/download](https://ngrok.com/download) (ทำครั้งแรกเท่านั้น)
 2. เปิดเทอร์มินัลใหม่ ขณะที่ Kong และ services ยังรันอยู่
-3. สั่ง
+3. บนเครื่องของแต่ละ service (users / shop / admin) ให้สั่ง
    ```bash
-   ngrok http 8000
+   ngrok http 8080
    ```
 4. คัดลอก **Forwarding URL** ที่ได้ เช่น `https://xxxx.ngrok-free.app`
-5. ใช้ URL นี้แทน `http://localhost:8000` เมื่อแชร์ API ภายนอก
+5. ส่ง URL นี้ให้เพื่อนที่ดูแล Kong Gateway เพื่ออัปเดต Service/Route ให้ชี้มาที่อุโมงค์ของคุณ จากนั้นใช้ URL เดียวกันทดสอบปลายทางก่อนเชื่อมกับ Kong
    ```bash
-   curl -sS https://xxxx.ngrok-free.app/users/healthz
+   curl -sS https://xxxx.ngrok-free.app/healthz
    ```
 
 > โปรดเปิดเทอร์มินัล ngrok ค้างไว้ระหว่างใช้งาน และ URL แบบฟรีจะเปลี่ยนทุกครั้งที่เริ่ม ngrok ใหม่
@@ -407,7 +407,7 @@ curl -sS http://localhost:8000/admin/healthz
 
 ## 📡 API Endpoints Overview (ผ่าน Kong Proxy)
 
-> Base URL: `http://localhost:8000` (ถ้าใช้ ngrok ให้แทนด้วย URL จากหัวข้อ 5.4)
+> Base URL: `http://localhost:8000` (ถ้าใช้ ngrok ให้แทนด้วย URL ที่ทีม Kong แชร์หลังผูกเข้ากับอุโมงค์ของแต่ละ service)
 
 ### Users Service (`/users`)
 
@@ -673,10 +673,10 @@ curl -sS http://localhost:8000/users/healthz
 curl -sS http://localhost:8000/shop/healthz
 curl -sS http://localhost:8000/admin/healthz
 
-# ผ่าน ngrok (แทน <NGROK_URL> ด้วย URL จากหัวข้อ 5.4)
-curl -sS https://<NGROK_URL>/users/healthz
-curl -sS https://<NGROK_URL>/shop/healthz
-curl -sS https://<NGROK_URL>/admin/healthz
+# ผ่าน ngrok (แทน <KONG_NGROK_URL> ด้วย URL ที่ทีม Kong แชร์หลังเชื่อม service ของคุณ)
+curl -sS https://<KONG_NGROK_URL>/users/healthz
+curl -sS https://<KONG_NGROK_URL>/shop/healthz
+curl -sS https://<KONG_NGROK_URL>/admin/healthz
 ```
 
 ---
